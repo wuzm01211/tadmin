@@ -1,0 +1,17 @@
+{include file="public/header"/}
+<body>
+{include file="public/left"/}
+{include file="public/top"/}
+<div id="content-wrap" class="normal-bar">
+    <div id="content-area">
+        <div class="action-title">{$admin_title}</div>
+        <form style="padding-bottom: 60px;" method="{$form_method}" action="{$form_url}" enctype="{$enctype}">
+            {$form_items}
+            <button type="submit" class="btn btn-primary">提交</button>
+        </form>
+    </div>
+</div>
+{include file="public/footer"/}
+{include file="public/ueditor"/}
+</body>
+</html>

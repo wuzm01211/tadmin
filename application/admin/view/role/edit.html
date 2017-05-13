@@ -1,0 +1,170 @@
+{include file="public/header"/}
+<body>
+{include file="public/left"/}
+{include file="public/top"/}
+<div id="content-wrap" class="normal-bar">
+    <div id="content-area">
+        <div class="action-title">{$form_url}</div>
+        <form style="padding-bottom: 60px;">
+            <div class="form-group">
+                <label for="role_name">角色名</label>
+                <input type="text" class="form-control" id="role_name" placeholder="角色名">
+            </div>
+            <div class="form-group">
+                <label for="create_time">创建时间</label>
+                <input type="date" class="form-control" id="create_time" placeholder="创建时间">
+            </div>
+            <div class="form-group">
+                <label for="role_icon">头像</label>
+                <input type="file" id="role_icon">
+            </div>
+            <div class="form-group">
+                <label>状态</label>
+                <div class="radio admin-radio">
+                    <label>
+                        <input type="radio" name="status">正常
+                    </label>
+                    <label>
+                        <input type="radio" name="status">禁用
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>类型</label>
+                <select name="type" class="form-control">
+                    <option>类型1</option>
+                    <option>类型2</option>
+                    <option>类型3</option>
+                    <option>类型4</option>
+                    <option>类型5</option>
+                    <option>类型6</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>权限</label>
+                <table class="table table-bordered" style="margin-bottom: 0;">
+                    <tr>
+                        <th>模块</th>
+                        <th>操作</th>
+                    </tr>
+                    <tr>
+                        <td>角色</td>
+                        <td>
+                            <div class="checkbox checkbox-inline">
+                                <label>
+                                    <input type="checkbox"> 查看
+                                </label>
+                            </div>
+                            <div class="checkbox checkbox-inline">
+                                <label>
+                                    <input type="checkbox"> 添加
+                                </label>
+                            </div>
+                            <div class="checkbox checkbox-inline">
+                                <label>
+                                    <input type="checkbox"> 删除
+                                </label>
+                            </div>
+                            <div class="checkbox checkbox-inline">
+                                <label>
+                                    <input type="checkbox"> 修改
+                                </label>
+                            </div>
+                            <div class="checkbox checkbox-inline">
+                                <label>
+                                    <input type="checkbox"> 审核
+                                </label>
+                            </div>
+                            <div class="checkbox checkbox-inline">
+                                <label>
+                                    <input type="checkbox"> 禁用
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>角色</td>
+                        <td>
+                            <div class="checkbox checkbox-inline">
+                                <label>
+                                    <input type="checkbox"> 查看
+                                </label>
+                            </div>
+                            <div class="checkbox checkbox-inline">
+                                <label>
+                                    <input type="checkbox"> 添加
+                                </label>
+                            </div>
+                            <div class="checkbox checkbox-inline">
+                                <label>
+                                    <input type="checkbox"> 删除
+                                </label>
+                            </div>
+                            <div class="checkbox checkbox-inline">
+                                <label>
+                                    <input type="checkbox"> 修改
+                                </label>
+                            </div>
+                            <div class="checkbox checkbox-inline">
+                                <label>
+                                    <input type="checkbox"> 审核
+                                </label>
+                            </div>
+                            <div class="checkbox checkbox-inline">
+                                <label>
+                                    <input type="checkbox"> 禁用
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>角色</td>
+                        <td>
+                            <div class="checkbox checkbox-inline">
+                                <label>
+                                    <input type="checkbox"> 查看
+                                </label>
+                            </div>
+                            <div class="checkbox checkbox-inline">
+                                <label>
+                                    <input type="checkbox"> 添加
+                                </label>
+                            </div>
+                            <div class="checkbox checkbox-inline">
+                                <label>
+                                    <input type="checkbox"> 删除
+                                </label>
+                            </div>
+                            <div class="checkbox checkbox-inline">
+                                <label>
+                                    <input type="checkbox"> 修改
+                                </label>
+                            </div>
+                            <div class="checkbox checkbox-inline">
+                                <label>
+                                    <input type="checkbox"> 审核
+                                </label>
+                            </div>
+                            <div class="checkbox checkbox-inline">
+                                <label>
+                                    <input type="checkbox"> 禁用
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="form-group">
+                <label>内容</label>
+                <textarea id="content" name="content" style="width: 100%;min-height: 200px;"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">提交</button>
+        </form>
+    </div>
+</div>
+{include file="public/footer"/}
+{include file="public/ueditor"/}
+</body>
+</html>

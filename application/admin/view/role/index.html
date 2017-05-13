@@ -1,0 +1,125 @@
+{include file="public/header"/}
+<body>
+{include file="public/left"/}
+{include file="public/top"/}
+<div id="content-wrap" class="normal-bar">
+    <div id="content-area">
+        <div class="action-title">角色列表</div>
+        <div class="content-action col-lg-3">
+            <div class="btn-group-md" role="group" aria-label="content-action">
+                <button class="btn btn-primary">添加</button>
+            </div>
+        </div>
+        <div class="content-search col-lg-9">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="role">角色名</label>
+                    <input class="form-control" name="role" id="role" placeholder="角色名">
+                </div>
+                <div class="form-group">
+                    <label for="status">状态</label>
+                    <select class="form-control" id="status" name="status">
+                        <option value="">无</option>
+                        <option value="1">正常</option>
+                        <option value="-1">禁用</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="role_id">角色</label>
+                    <select class="form-control" id="role_id" name="status">
+                        <option value="">无</option>
+                        <option value="1">超级管理员</option>
+                        <option value="2">中级管理员</option>
+                        <option value="3">普通管理员</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary"><i class="fa fa-search">&nbsp;</i>搜索</button>
+            </form>
+        </div>
+        <div class="data-list">
+            <table class="table table-striped table-bordered table-hover">
+                <tr>
+                    <th><input type="checkbox" id="check-all"></th>
+                    <th>ID</th>
+                    <th>账号</th>
+                    <th>角色</th>
+                    <th>添加时间</th>
+                    <th>最后登录时间</th>
+                    <th>最后登录ip</th>
+                    <th>操作</th>
+                </tr>
+                <tr>
+                    <th><input class="data-check" type="checkbox" value="1" name="check_arr[]"></th>
+                    <td>1</td>
+                    <td>admin</td>
+                    <td>超级管理员</td>
+                    <td>2017-03-31</td>
+                    <td>2017-05-12</td>
+                    <td>127.0.0.1</td>
+                    <td>
+                        <div class="btn-group-xs" role="group" aria-label="content-action" data-id="1">
+                            <button class="btn btn-info">修改</button>
+                            <button class="btn btn-success enableOne">启用</button>
+                            <button class="btn btn-warning disableOne">禁用</button>
+                            <button class="btn btn-danger delOne">删除</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th><input class="data-check" type="checkbox" value="1" name="check_arr[]"></th>
+                    <td>1</td>
+                    <td>admin</td>
+                    <td>超级管理员</td>
+                    <td>2017-03-31</td>
+                    <td>2017-05-12</td>
+                    <td>127.0.0.1</td>
+                    <td>
+                        <div class="btn-group-xs" role="group" aria-label="content-action" data-id="1">
+                            <button class="btn btn-info">修改</button>
+                            <button class="btn btn-success enableOne">启用</button>
+                            <button class="btn btn-warning disableOne">禁用</button>
+                            <button class="btn btn-danger delOne">删除</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th><input class="data-check" type="checkbox" value="1" name="check_arr[]"></th>
+                    <td>1</td>
+                    <td>admin</td>
+                    <td>超级管理员</td>
+                    <td>2017-03-31</td>
+                    <td>2017-05-12</td>
+                    <td>127.0.0.1</td>
+                    <td>
+                        <div class="btn-group-xs" role="group" aria-label="content-action" data-id="1">
+                            <button class="btn btn-info">修改</button>
+                            <button class="btn btn-success enableOne">启用</button>
+                            <button class="btn btn-warning disableOne">禁用</button>
+                            <button class="btn btn-danger delOne">删除</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th><input class="data-check" type="checkbox" value="1" name="check_arr[]"></th>
+                    <td>1</td>
+                    <td>admin</td>
+                    <td>超级管理员</td>
+                    <td>2017-03-31</td>
+                    <td>2017-05-12</td>
+                    <td>127.0.0.1</td>
+                    <td>
+                        <div class="btn-group-xs" role="group" aria-label="content-action" data-id="1">
+                            <button class="btn btn-info">修改</button>
+                            <button class="btn btn-success enableOne">启用</button>
+                            <button class="btn btn-warning disableOne">禁用</button>
+                            <button class="btn btn-danger delOne">删除</button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+{include file="public/footer"/}
+</body>
+</html>
