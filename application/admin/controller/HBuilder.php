@@ -13,7 +13,6 @@ use think\Controller;
 
 class HBuilder extends Controller
 {
-
     /**
      * 设置页面标题
      * @param $admin_title
@@ -61,8 +60,11 @@ class HBuilder extends Controller
             case 'multipart':
                 $enctype = 'multipart/form-data';
                 break;
-            default:
+            case 'text':
                 $enctype = 'text/plain';
+                break;
+            default:
+                $enctype = 'application/x-www-form-urlencoded';
         }
         $this->assign('enctype',$enctype);
         return $this;
@@ -131,9 +133,9 @@ class HBuilder extends Controller
                     foreach($val['data'] as $vo){
                         $html.='<label>';
                         if($form_data[$val['name']]==$vo['value']){
-                            $html.='<input type="radio" name="'.$val['name'].'[]" value="'.$vo['value'].'" checked="checked">'.$vo['title'];
+                            $html.='<input type="radio" name="'.$val['name'].'" value="'.$vo['value'].'" checked="checked">'.$vo['title'];
                         }else{
-                            $html.='<input type="radio" name="'.$val['name'].'[]" value="'.$vo['value'].'">'.$vo['title'];
+                            $html.='<input type="radio" name="'.$val['name'].'" value="'.$vo['value'].'">'.$vo['title'];
                         }
                         $html.='</label>';
                     }
@@ -158,7 +160,7 @@ class HBuilder extends Controller
                     $html.='<div class="form-group">';
                     $html.='<label>'.$val['label'].'</label>';
                     $html.='<select name="'.$val['name'].'" class="form-control" id="'.$val['id'].'">';
-                    $html.='<option>请选择</option>';
+                    $html.='<option value="">请选择</option>';
                     foreach($val['data'] as $vo){
                         $html.='<label>';
                         if($form_data[$val['name']]==$vo['value']){
@@ -233,7 +235,11 @@ class HBuilder extends Controller
     }
 
     /**
-     * 设置
+     * 设置 顶部动作按钮
+     * 按钮类型 type: default,primary,info,success,warning,danger
+     * 按钮链接 url
+     * 按钮标题 title
+     * 动作 action 值redirect 直接跳转 值confirm 弹出对话框
      * @param $top_buttons
      * @return $this
      */
@@ -244,13 +250,19 @@ class HBuilder extends Controller
         }else{
             $html = '';
             foreach($top_buttons as $val){
-                $html.='<a class="btn btn-'.$val['type'].'" href="'.$val['url'].'">'.$val['title'].'</a> ';
+                $html.='<button class="top-action btn btn-'.$val['type'].'" data-action="'.$val['action'].'" data-url="'.$val['url'].'" data-tips="'.$val['title'].'">'.$val['title'].'</button> ';
             }
             $this->assign('top_buttons',$html);
         }
         return $this;
     }
 
+    /**
+     * 设置搜索
+     * @param string $form_items
+     * @param string $form_data
+     * @return $this
+     */
     public function setSearchForm($form_items='',$form_data='')
     {
         if(!is_array($form_items)){
@@ -284,7 +296,7 @@ class HBuilder extends Controller
                         $html.='<div class="form-group">';
                         $html.='<label>'.$val['label'].'</label>';
                         $html.='<select name="'.$val['name'].'" class="form-control" id="'.$val['id'].'">';
-                        $html.='<option>请选择</option>';
+                        $html.='<option value="">请选择</option>';
                         foreach($val['data'] as $vo){
                             $html.='<label>';
                             if($form_data[$val['name']]==$vo['value']){
@@ -299,8 +311,67 @@ class HBuilder extends Controller
                         break;
                 }
             }
+            if($html){
+                $html.='<button type="submit" class="btn btn-primary"><i class="fa fa-search">&nbsp;</i>搜索</button>';
+            }
             $this->assign('form_items',$html);
         }
+        return $this;
+    }
+
+    /**
+     * 设置表格表头
+     * @param array $t_head 一维数组
+     * @return $this|bool $t_head不是数组则返回false，否则返回本对象句柄
+     */
+    public function setTHead($t_head)
+    {
+        if(!is_array($t_head)) return false;
+        $html = '';
+        $html.='<tr>';
+        $html.='<th><input type="checkbox" id="check-all"></th>';
+        foreach($t_head as $val){
+            $html.='<th>'.$val.'</th>';
+        }
+        $this->assign('t_head',$html);
+        return $this;
+    }
+
+    /**
+     * 设置表格数据
+     * @param array $data_list
+     * @param array $data_items
+     * @return $this|bool $data_list不是数组则返回false，否则返回本对象句柄
+     */
+    public function setTBody($data_list=[],$data_items)
+    {
+        if(!is_array($data_list)||!is_array($data_items)) return false;
+        $html = '';
+        if(empty($data_list)){
+            $html.='<tr><td style="text-align: center;padding: 30px;color: #888;" colspan="'.(count($data_items)+1).'">暂无数据</td></tr>';
+        }else{
+            foreach($data_list as $val){
+                $html.='<tr>';
+                $html.='<td><input class="data-check" type="checkbox" value="1" name="check_arr[]"></td>';
+                foreach($data_items as $vo){
+                    $html.='<td>';
+                    if($vo=='right_button'){
+                        $html.='<div class="btn-group-xs" role="group" aria-label="content-action">';
+                        foreach($val['right_button'] as $btn){
+                            $html.=' <button class="action btn btn-'.$btn['type'].'" data-action="'.$btn['action'].'" data-url="'.$btn['url'].'" data-tips="'.$btn['title'].'">'.$btn['title'].'</button>';
+                        }
+                        $html.='</div>';
+                    }else if(strpos($vo,'time')){
+                        $html.= date('Y-m-d',$val[$vo]);
+                    }else{
+                        $html.= $val[$vo];
+                    }
+                    $html.='</td>';
+                }
+                $html.='</tr>';
+            }
+        }
+        $this->assign('t_body',$html);
         return $this;
     }
 
