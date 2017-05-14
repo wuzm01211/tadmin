@@ -1,0 +1,31 @@
+{include file="public/header"/}
+<body>
+{include file="public/left"/}
+{include file="public/top"/}
+<div id="content-wrap" class="normal-bar">
+    <div id="content-area">
+        <div class="action-title">{$admin_title}</div>
+        <div class="content-action col-lg-3">
+            <div class="btn-group-md" role="group" aria-label="content-action">
+                {$top_buttons}
+            </div>
+        </div>
+        <div class="content-search col-lg-9">
+            <form class="form-inline" method="{$form_method}" action="{$form_url}">
+                {$form_items}
+            </form>
+        </div>
+        <div class="data-list">
+            <table class="table table-striped table-bordered table-hover">
+                {$t_head}
+                {$t_body}
+            </table>
+            <div style="text-align: center">
+                {$page}
+            </div>
+        </div>
+    </div>
+</div>
+{include file="public/footer"/}
+</body>
+</html>
