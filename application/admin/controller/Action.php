@@ -29,6 +29,7 @@ class Action extends Base
         $this->t_head = ['id','操作名称','操作码','动作','样式','操作'];
         $this->data_items = ['id','title','code','action','type','right_button'];
         $this->data_list = $this->model->dataList();
+        $this->setPage();
         foreach($this->data_list as &$val){
             $val['right_button'] = [
                 ['type'=>'info','title'=>'修改','action'=>'redirect','url'=>url('edit',['id'=>$val['id']])],

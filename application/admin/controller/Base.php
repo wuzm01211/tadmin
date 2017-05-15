@@ -38,6 +38,10 @@ class Base extends Controller
     {
         parent::__construct();
         $this->assign('ueditor',$this->ueditor);
+
+        $menu_tree = get_menu_tree();
+        $this->assign('menu_tree',$menu_tree);
+
         if(!$this->builder){
             $this->builder = new HBuilder();
         }
