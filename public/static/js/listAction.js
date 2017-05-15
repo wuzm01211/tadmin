@@ -22,86 +22,80 @@ function getCheckVal(){
     return str.substring(0,str.length-1);
 }
 $(function() {
-    $('.data-list').find('.checkOne').
+    $('.data-list').find('.enableOne').
         on('click', function() {
             var id = $(this).parent().data('id');
+            var text = $(this).text();
             if(id==undefined){
                 $('#confirm_msg').data('id',0);
             }else{
                 $('#confirm_msg').data('id',id);
             }
 
-            $('#confirm_msg').data('action','checkOne');
-            $('#confirm_msg').text('你，确定要审核这条记录吗？');
+            $('#confirm_msg').data('action','enableOne');
+            $('#confirm_msg').text('你，确定要'+text+'吗？');
+            $('#my-confirm').modal('show');
+        });
+    $('.data-list').find('.disableOne').
+        on('click', function() {
+            var id = $(this).parent().data('id');
+            var text = $(this).text();
+            if(id==undefined){
+                $('#confirm_msg').data('id',0);
+            }else{
+                $('#confirm_msg').data('id',id);
+            }
+
+            $('#confirm_msg').data('action','disableOne');
+            $('#confirm_msg').text('你，确定要'+text+'吗？');
             $('#my-confirm').modal('show');
         });
 });
 
 
 $(function() {
-    $('.data-list').find('.delOne').
+    $('.action').
         on('click', function() {
-            var id = $(this).parent().data('id');
-            $('#confirm_msg').data('id',id);
-            $('#confirm_msg').data('action','delOne');
-            $('#confirm_msg').text('你，确定要删除这条记录吗？');
-            $('#my-confirm').modal('show');
+            var action = $(this).data('action');
+            var url = $(this).data('url');
+            switch (action){
+                case 'redirect':
+                    window.location.href = url;
+                    break;
+                case 'confirm':
+                    var tips = $(this).data('tips');
+                    $('#confirm_msg').data('url',url);
+                    $('#confirm_msg').text('你，确定要'+tips+'这条记录吗？');
+                    $('#my-confirm').modal('show');
+                    break;
+                default :
+                    window.location.href = url;
+            }
         });
 });
 $(function(){
-    $('#delMore').on('click',function(){
+    $('.top-action').on('click',function(){
         var ids = getCheckVal();
-        $('#confirm_msg').data('ids',ids);
-        $('#confirm_msg').data('action','delMore');
-        $('#confirm_msg').text('你，确定要删除这些记录吗？');
-        $('#my-confirm').modal('show');
+        var action = $(this).data('action');
+        var url = $(this).data('url');
+        switch (action){
+            case 'redirect':
+                window.location.href = url;
+                break;
+            case 'confirm':
+                var tips = $(this).data('tips');
+                $('#confirm_msg').data('url',url+'?&ids='+ids);
+                $('#confirm_msg').text('你，确定要'+tips+'这些记录吗？');
+                $('#my-confirm').modal('show');
+                break;
+        }
     })
 });
-$(function(){
-    $('#checkMore').on('click',function(){
-        var ids = getCheckVal();
-        $('#confirm_msg').data('ids',ids);
-        $('#confirm_msg').data('action','checkMore');
-        $('#confirm_msg').text('你，确定要审核这些记录吗？');
-        $('#my-confirm').modal('show');
-    })
-});
-
-function checkOne(id){
-    console.log('check one by id:'+id);
-}
-
-function checkMore(ids){
-    console.log('check more by ids:'+ids);
-}
-
-function delOne(id){
-    console.log('del one by id:'+id);
-}
-
-function delMore(ids){
-    console.log('del more by ids:'+ids);
-}
 
 $('#btn-sure').click(function(){
-    var id = $('#confirm_msg').data('id');
-    var ids = $('#confirm_msg').data('ids');
-    var action = $('#confirm_msg').data('action');
-    switch (action){
-        case 'checkOne':
-            checkOne(id);
-            break;
-        case 'checkMore':
-            checkMore(ids);
-            break;
-        case 'delOne':
-            delOne(id);
-            break;
-        case 'delMore':
-            delMore(ids);
-            break;
-    }
+    var url = $('#confirm_msg').data('url');
     $('#my-confirm').modal('hide');
+    window.location.href = url;
 });
 
 
