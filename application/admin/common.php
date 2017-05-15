@@ -33,9 +33,9 @@ function get_permission($map='',$field='*',$order='id desc')
 function get_button()
 {
     $user = cookie('user');
-    $role_id = $user['role_id'];
+    $role_id = intval($user['role_id']);
     $request = request();
-    $controller = $request->controller();
-    $op_id = Db::table('sys_operate')->where(['code'=>strtolower($controller)])->value('id');
-    $prms = Db::table('sys_permission')->where(['role_id'=>$role_id,'op_id'=>$op_id])->column('ac_id');
+    $controller = strtolower($request->controller());
+    $sql = "select a.* from sys_permission p join sys_operate o on o.code='$controller' and p.op_id=o.id and p.role_id=$role_id join sys_action a on a.id=p.ac_id";
+    dump(Db::query($sql));
 }
