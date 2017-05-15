@@ -8,17 +8,20 @@
 
 namespace app\admin\model;
 
-
-use think\console\command\make\Model;
 use think\Db;
 
-class Action extends Model
+class Action
 {
     private $table = 'sys_action';
 
-    public function dataList($map='',$filed='')
+    public function dataList($map='',$filed='',$order='id desc',$per_page=15,$option=[])
     {
-        $data_list = Db::table($this->table)->where($map)->field($filed)->select();
+        if($per_page){
+            $data_list = Db::table($this->table)->where($map)->field($filed)->order($order)->paginate($per_page,false,$option);
+        }else{
+            $data_list = Db::table($this->table)->where($map)->field($filed)->order($order)->paginate();
+        }
+
         if(empty($data_list)) return [];
         else return $data_list;
     }
@@ -58,6 +61,6 @@ class Action extends Model
 
     public function delOne($map){
         if(!$map) return false;
-        return Db::table($this->table)->where($map)->delete();
+        return Db::table($this->table)->where($map)->limit(1)->delete();
     }
 }

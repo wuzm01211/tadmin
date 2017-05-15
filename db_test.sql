@@ -2,10 +2,10 @@
 -- version 4.6.4
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: 2017-05-15 00:16:58
--- 服务器版本： 5.7.15
--- PHP Version: 7.0.11
+-- Host: 127.0.0.1
+-- Generation Time: 2017-05-15 10:54:21
+-- 服务器版本： 5.7.14
+-- PHP Version: 5.6.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -31,15 +31,18 @@ CREATE TABLE `sys_action` (
   `title` varchar(16) NOT NULL COMMENT '动作名',
   `code` varchar(16) NOT NULL COMMENT '动作编码',
   `action` varchar(32) NOT NULL COMMENT '动作 redirect confirm',
-  `type` varchar(32) NOT NULL COMMENT '类型 default primary success info warning danger'
+  `type` varchar(32) NOT NULL COMMENT '类型 default primary success info warning danger',
+  `pos` varchar(32) DEFAULT NULL COMMENT '按钮位置 top_button和right_button'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='操作表';
 
 --
 -- 转存表中的数据 `sys_action`
 --
 
-INSERT INTO `sys_action` (`id`, `title`, `code`, `action`, `type`) VALUES
-(1, '可见', 'have', 'redirect', 'default');
+INSERT INTO `sys_action` (`id`, `title`, `code`, `action`, `type`, `pos`) VALUES
+(1, '可见', 'have', 'redirect', 'default', 'hidden'),
+(2, '列表', 'index', 'redirect', 'default', 'hidden'),
+(3, '添加', 'add', 'redirect', 'primary', 'top_button');
 
 -- --------------------------------------------------------
 
@@ -81,18 +84,23 @@ CREATE TABLE `sys_operate` (
   `id` smallint(5) NOT NULL COMMENT '自增主键',
   `pid` smallint(5) NOT NULL DEFAULT '0' COMMENT '上级id',
   `title` varchar(16) NOT NULL COMMENT '操作名称',
+  `code` varchar(32) NOT NULL COMMENT 'code',
   `url` varchar(64) DEFAULT NULL COMMENT 'url路径',
   `last_time` int(11) NOT NULL COMMENT '修改时间',
-  `sort` tinyint(1) NOT NULL DEFAULT '0' COMMENT '排序'
+  `sort` tinyint(1) NOT NULL DEFAULT '0' COMMENT '排序',
+  `icon` varchar(32) DEFAULT NULL COMMENT 'fa图标'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='菜单表';
 
 --
 -- 转存表中的数据 `sys_operate`
 --
 
-INSERT INTO `sys_operate` (`id`, `pid`, `title`, `url`, `last_time`, `sort`) VALUES
-(1, 0, '系统设置', 'admin/sys/index', 1494770998, 1),
-(2, 1, '操作管理', 'admin/action/index', 1494773470, 1);
+INSERT INTO `sys_operate` (`id`, `pid`, `title`, `code`, `url`, `last_time`, `sort`, `icon`) VALUES
+(1, 0, '系统设置', 'sys', 'admin/sys/index', 1494819153, 1, 'fa-gears'),
+(2, 1, '操作管理', 'action', 'admin/action/index', 1494819163, 1, 'fa-file'),
+(3, 1, '菜单管理', 'operate', 'admin/operate/index', 1494819143, 2, 'fa-file'),
+(4, 1, '角色管理', 'role', 'admin/role/index', 1494819132, 3, 'fa-file'),
+(5, 1, '管理员', 'admin', 'admin/admin/index', 1494841449, 4, 'fa-user');
 
 -- --------------------------------------------------------
 
@@ -106,6 +114,27 @@ CREATE TABLE `sys_permission` (
   `op_id` smallint(5) NOT NULL COMMENT '操作id',
   `ac_id` smallint(5) NOT NULL COMMENT '动作id'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='权限表';
+
+--
+-- 转存表中的数据 `sys_permission`
+--
+
+INSERT INTO `sys_permission` (`id`, `role_id`, `op_id`, `ac_id`) VALUES
+(1, 1, 3, 1),
+(2, 1, 1, 1),
+(16, 1, 5, 1),
+(17, 1, 5, 2),
+(18, 1, 5, 3),
+(19, 1, 4, 1),
+(20, 1, 4, 2),
+(21, 1, 4, 3),
+(22, 1, 3, 2),
+(23, 1, 3, 3),
+(24, 1, 1, 2),
+(25, 1, 1, 3),
+(26, 1, 2, 1),
+(27, 1, 2, 2),
+(28, 1, 2, 3);
 
 -- --------------------------------------------------------
 
@@ -126,7 +155,7 @@ CREATE TABLE `sys_role` (
 --
 
 INSERT INTO `sys_role` (`id`, `role_name`, `status`, `create_time`, `last_time`) VALUES
-(1, '超级管理员', 1, 1494729551, 1494729551);
+(1, '超级管理员', 1, 1494832914, 1494842388);
 
 --
 -- Indexes for dumped tables
@@ -176,7 +205,7 @@ ALTER TABLE `sys_role`
 -- 使用表AUTO_INCREMENT `sys_action`
 --
 ALTER TABLE `sys_action`
-  MODIFY `id` smallint(3) NOT NULL AUTO_INCREMENT COMMENT '自增主键', AUTO_INCREMENT=2;
+  MODIFY `id` smallint(3) NOT NULL AUTO_INCREMENT COMMENT '自增主键', AUTO_INCREMENT=4;
 --
 -- 使用表AUTO_INCREMENT `sys_admin`
 --
@@ -191,17 +220,17 @@ ALTER TABLE `sys_log`
 -- 使用表AUTO_INCREMENT `sys_operate`
 --
 ALTER TABLE `sys_operate`
-  MODIFY `id` smallint(5) NOT NULL AUTO_INCREMENT COMMENT '自增主键', AUTO_INCREMENT=3;
+  MODIFY `id` smallint(5) NOT NULL AUTO_INCREMENT COMMENT '自增主键', AUTO_INCREMENT=6;
 --
 -- 使用表AUTO_INCREMENT `sys_permission`
 --
 ALTER TABLE `sys_permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增主键';
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增主键', AUTO_INCREMENT=31;
 --
 -- 使用表AUTO_INCREMENT `sys_role`
 --
 ALTER TABLE `sys_role`
-  MODIFY `id` smallint(5) NOT NULL AUTO_INCREMENT COMMENT '自增主键', AUTO_INCREMENT=2;
+  MODIFY `id` smallint(5) NOT NULL AUTO_INCREMENT COMMENT '自增主键', AUTO_INCREMENT=3;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

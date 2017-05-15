@@ -38,13 +38,27 @@ class Base extends Controller
     {
         parent::__construct();
         $this->assign('ueditor',$this->ueditor);
+
+        $menu_tree = get_menu_tree();
+        $this->assign('menu_tree',$menu_tree);
+
         if(!$this->builder){
             $this->builder = new HBuilder();
         }
+
+        $user = [
+            'id'=>1,
+            'account'=>'admin',
+            'role_id'=>1,
+        ];
+        cookie('user',$user);
+
     }
 
     protected function index()
     {
+
+
         return $this->builder
             ->setTitle($this->title)
             ->setTopButtons($this->top_buttons)

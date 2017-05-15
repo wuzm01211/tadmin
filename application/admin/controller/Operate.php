@@ -13,6 +13,7 @@ use app\admin\model\Operate as OperateModel;
 class Operate extends Base
 {
     private $model = '';
+    const ACTION_TITLE = '菜单';
 
     public function __construct()
     {
@@ -42,15 +43,15 @@ class Operate extends Base
         $this->top_buttons = [
             ['type'=>'primary','url'=>url('add'),'title'=>'添加','action'=>'redirect']
         ];
-        $this->title = '菜单列表';
+        $this->title = self::ACTION_TITLE.'列表';
         $this->search_items = [
             ['type'=>'text','label'=>'菜单名称','name'=>'title','id'=>'title','placeholder'=>'请输入菜单名称，必填'],
             ['type'=>'select','label'=>'上级菜单','name'=>'pid','id'=>'pid','data'=>$pid_arr],
         ];
-        $this->t_head = ['id','上级菜单','菜单名称','url','修改时间','操作'];
-        $this->data_items = ['id','pid','title','url','last_time','right_button'];
+        $this->t_head = ['id','上级菜单','菜单名称','code','url','修改时间','图标','操作'];
+        $this->data_items = ['id','pid','title','code','url','last_time','icon','right_button'];
 
-        $this->data_list = $this->model->dataList($where,'','',1,$option);
+        $this->data_list = $this->model->dataList($where,'','',15,$option);
         $this->setPage();
 
         foreach($this->data_list as &$val){
@@ -64,7 +65,7 @@ class Operate extends Base
 
     public function add()
     {
-        $this->title = '添加操作';
+        $this->title = '添加'.self::ACTION_TITLE;
         $this->form_method = 'post';
         $this->form_url = url('save');
         $this->formUI();
@@ -83,7 +84,7 @@ class Operate extends Base
                 $this->error('数据不存在');
                 return false;
             }else{
-                $this->title = '修改操作';
+                $this->title =  '修改'.self::ACTION_TITLE;
                 $this->form_method = 'post';
                 $this->form_url = url('save',['id'=>$id]);
                 $this->form_data = $data;
@@ -97,8 +98,10 @@ class Operate extends Base
         $pid_arr = $this->model->dataList(['pid'=>0],'id as value,title','',0);
         $this->form_items = [
             ['type'=>'text','label'=>'菜单名称','name'=>'title','id'=>'title','placeholder'=>'请输入菜单名称，必填'],
+            ['type'=>'text','label'=>'code','name'=>'code','id'=>'code','placeholder'=>'请输入code，必填'],
             ['type'=>'text','label'=>'url','name'=>'url','id'=>'url','placeholder'=>'请输入url，必填'],
             ['type'=>'select','label'=>'上级菜单','name'=>'pid','id'=>'pid','data'=>$pid_arr],
+            ['type'=>'text','label'=>'图标','name'=>'icon','id'=>'icon','placeholder'=>'菜单图标 fa-icon'],
             ['type'=>'text','label'=>'排序','name'=>'sort','id'=>'sort','placeholder'=>'排序'],
         ];
     }
@@ -111,15 +114,15 @@ class Operate extends Base
             $id = $data['id'];
             unset($data['id']);
             if($this->model->updateOne($data,$id)){
-                $this->success('修改操作成功',url('index'));
+                $this->success('修改菜单成功',url('index'));
             }else{
-                $this->error('添加操作失败');
+                $this->error('修改菜单失败');
             }
         }else{
             if($this->model->addOne($data)){
-                $this->success('添加操作成功',url('index'));
+                $this->success('添加菜单成功',url('index'));
             }else{
-                $this->error('添加操作失败');
+                $this->error('添加菜单失败');
             }
         }
     }
@@ -131,9 +134,9 @@ class Operate extends Base
             $this->error('参数错误');
         }else{
             if($this->model->delOne(['id'=>$id])){
-                $this->success('删除操作成功',url('index'));
+                $this->success('删除菜单成功',url('index'));
             }else{
-                $this->error('删除操作失败');
+                $this->error('删除菜单失败');
             }
         }
     }

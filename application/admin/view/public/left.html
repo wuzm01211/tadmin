@@ -4,57 +4,18 @@
     </div>
     <div id="menu-content">
         <ul class="list-unstyled">
+            {volist name="menu_tree" id="val"}
             <li>
-                <a class="main-menu" href="javascript:"><i class="fa fa-home"></i>首页<i class="fa fa-angle-up fa-pull-right"></i></a>
+                <a class="main-menu" href="javascript:"><i class="fa {$val.icon}"></i>{$val.title}<i class="fa fa-angle-up fa-pull-right"></i></a>
                 <ul class="list-unstyled sub-menu sub-menu-o">
+                    {volist name="$val['child_menu']" id="vo"}
                     <li>
-                        <a href="#"><i class="fa fa-bar-chart"></i>数据汇总</a>
+                        <a href="{:url($vo['url'])}"><i class="fa {$vo['icon']}"></i>{$vo['title']}</a>
                     </li>
-                    <li>
-                        <a href="#"><i class="fa fa-tags"></i>系统信息</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-bar-chart"></i>数据汇总</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-tags"></i>系统信息</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-bar-chart"></i>数据汇总</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-tags"></i>系统信息</a>
-                    </li>
+                    {/volist}
                 </ul>
             </li>
-            <li>
-                <a class="main-menu" href="javascript:"><i class="fa fa-home"></i>首页<i class="fa fa-angle-down fa-pull-right"></i></a>
-                <ul class="list-unstyled sub-menu">
-                    <li>
-                        <a href="#"><i class="fa fa-bar-chart"></i>数据汇总</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-tags"></i>系统信息</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-bar-chart"></i>数据汇总</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-tags"></i>系统信息</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a class="main-menu" href="javascript:"><i class="fa fa-home"></i>首页<i class="fa fa-angle-down fa-pull-right"></i></a>
-                <ul class="list-unstyled sub-menu">
-                    <li>
-                        <a href="#"><i class="fa fa-bar-chart"></i>数据汇总</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-tags"></i>系统信息</a>
-                    </li>
-                </ul>
-            </li>
+            {/volist}
         </ul>
     </div>
 </div>

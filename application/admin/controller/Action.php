@@ -26,9 +26,10 @@ class Action extends Base
             ['type'=>'primary','url'=>url('add'),'title'=>'添加','action'=>'redirect']
         ];
         $this->title = '操作列表';
-        $this->t_head = ['id','操作名称','操作码','动作','样式','操作'];
-        $this->data_items = ['id','title','code','action','type','right_button'];
+        $this->t_head = ['id','操作名称','操作码','动作','样式','位置','操作'];
+        $this->data_items = ['id','title','code','action','type','pos','right_button'];
         $this->data_list = $this->model->dataList();
+        $this->setPage();
         foreach($this->data_list as &$val){
             $val['right_button'] = [
                 ['type'=>'info','title'=>'修改','action'=>'redirect','url'=>url('edit',['id'=>$val['id']])],
@@ -59,6 +60,7 @@ class Action extends Base
                 $this->error('数据不存在');
                 return false;
             }else{
+                $data['pos'] = explode(',',$data['pos']);
                 $this->title = '修改操作';
                 $this->form_method = 'post';
                 $this->form_url = url('save',['id'=>$id]);
@@ -84,6 +86,11 @@ class Action extends Base
                 ['value'=>'info','title'=>'info'],
                 ['value'=>'warning','title'=>'warning'],
                 ['value'=>'danger','title'=>'danger'],
+            ]],
+            ['type'=>'checkbox','label'=>'位置','name'=>'pos','id'=>'pos','data'=>[
+                ['value'=>'hidden','title'=>'隐藏'],
+                ['value'=>'top_button','title'=>'顶部按钮'],
+                ['value'=>'right_button','title'=>'右侧按钮'],
             ]]
         ];
     }
@@ -91,6 +98,7 @@ class Action extends Base
     public function save()
     {
         $data = input();
+        $data['pos'] = implode(',',$data['pos']);
         if(isset($data['id'])){
             $id = $data['id'];
             unset($data['id']);
