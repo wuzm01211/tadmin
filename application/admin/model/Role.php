@@ -9,19 +9,18 @@
 namespace app\admin\model;
 
 
-use think\Model;
 use think\Db;
 
-class Role extends Model
+class Role
 {
-    private $table_name = 'sys_role';
+    private $table = 'sys_role';
 
     public function dataList($map='',$filed='*',$order='id desc',$per_page=15,$option=[])
     {
         if($per_page){
-            $data_list = Db::table($this->table_name)->where($map)->field($filed)->order($order)->paginate($per_page,false,$option);
+            $data_list = Db::table($this->table)->where($map)->field($filed)->order($order)->paginate($per_page,false,$option);
         }else{
-            $data_list = Db::table($this->table_name)->where($map)->field($filed)->order($order)->paginate();
+            $data_list = Db::table($this->table)->where($map)->field($filed)->order($order)->paginate();
         }
         if(empty($data_list)) return [];
         else return $data_list;
@@ -49,9 +48,9 @@ class Role extends Model
     {
         if(!is_array($data)) return false;
         $role_data = ['role_name'=>$data['role_name'],'status'=>$data['status'],'create_time'=>$data['create_time'],'last_time'=>$data['last_time']];
-        $flag = Db::table($this->table_name)->where(['role_name'=>$data['role_name']])->value('id');
+        $flag = Db::table($this->table)->where(['role_name'=>$data['role_name']])->value('id');
         if($flag) return false;
-        $id = Db::table($this->table_name)->field('id,role_name,status,create_time,last_time')->insertGetId($role_data);
+        $id = Db::table($this->table)->field('id,role_name,status,create_time,last_time')->insertGetId($role_data);
         $permission = $this->buildPms($data,$id);
         $id = Db::table('sys_permission')->insertAll($permission);
         if($id){
@@ -66,9 +65,9 @@ class Role extends Model
         if(!is_array($data)) return false;
         $role_data = ['role_name'=>$data['role_name'],'status'=>$data['status'],'last_time'=>$data['last_time']];
         $id = intval($id);
-        $fid = Db::table($this->table_name)->where(['role_name'=>$role_data['role_name']])->order('id desc')->value('id');
+        $fid = Db::table($this->table)->where(['role_name'=>$role_data['role_name']])->order('id desc')->value('id');
         if($fid!=$id) return false;
-        $rid = Db::table($this->table_name)->where(['id'=>$id])->update($role_data);
+        $rid = Db::table($this->table)->where(['id'=>$id])->update($role_data);
         $permission = $this->buildPms($data,$id);
         $old_permission = Db::table('sys_permission')->where(['role_id'=>$id])->field('role_id,op_id,ac_id')->select();
         $add_permission = [];
@@ -104,14 +103,14 @@ class Role extends Model
     public function getOne($map,$field='*')
     {
         if(!$map) return false;
-        return Db::table($this->table_name)->where($map)->field($field)->find();
+        return Db::table($this->table)->where($map)->field($field)->find();
     }
 
     public function delOne($map){
         if(!$map) return false;
-        $info = Db::table($this->table_name)->where($map)->find();
+        $info = Db::table($this->table)->where($map)->find();
         if($info){
-            $rid =  Db::table($this->table_name)->where($map)->limit(1)->delete();
+            $rid =  Db::table($this->table)->where($map)->limit(1)->delete();
             if($rid){
                 Db::table('sys_permission')->where(['role_id'=>$info['id']])->delete();
                 return $rid;
@@ -125,18 +124,18 @@ class Role extends Model
 
     public function getCount($map='')
     {
-        return Db::table($this->table_name)->where($map)->count();
+        return Db::table($this->table)->where($map)->count();
     }
 
     public function enable($map)
     {
         if(!$map) return false;
-        return Db::table($this->table_name)->where($map)->setField('status',1);
+        return Db::table($this->table)->where($map)->setField('status',1);
     }
 
     public function disable($map)
     {
         if(!$map) return false;
-        return Db::table($this->table_name)->where($map)->setField('status',0);
+        return Db::table($this->table)->where($map)->setField('status',0);
     }
 }

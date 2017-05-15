@@ -8,20 +8,18 @@
 
 namespace app\admin\model;
 
-
-use think\console\command\make\Model;
 use think\Db;
 
-class Action extends Model
+class Action
 {
-    private $table_name = 'sys_action';
+    private $table = 'sys_action';
 
     public function dataList($map='',$filed='',$order='id desc',$per_page=15,$option=[])
     {
         if($per_page){
-            $data_list = Db::table($this->table_name)->where($map)->field($filed)->order($order)->paginate($per_page,false,$option);
+            $data_list = Db::table($this->table)->where($map)->field($filed)->order($order)->paginate($per_page,false,$option);
         }else{
-            $data_list = Db::table($this->table_name)->where($map)->field($filed)->order($order)->paginate();
+            $data_list = Db::table($this->table)->where($map)->field($filed)->order($order)->paginate();
         }
 
         if(empty($data_list)) return [];
@@ -34,9 +32,9 @@ class Action extends Model
         foreach($data as $val){
             if(!$val) return false;
         }
-        $flag = Db::table($this->table_name)->whereOr(['title'=>$data['title'],'code'=>$data['code']])->value('id');
+        $flag = Db::table($this->table)->whereOr(['title'=>$data['title'],'code'=>$data['code']])->value('id');
         if($flag) return false;
-        $id = Db::table($this->table_name)->insert($data);
+        $id = Db::table($this->table)->insert($data);
         if($id) return $id;
         else return false;
     }
@@ -48,9 +46,9 @@ class Action extends Model
             if(!$val) return false;
         }
         $id = intval($id);
-        $fid = Db::table($this->table_name)->whereOr(['title'=>$data['title'],'code'=>$data['code']])->value('id');
+        $fid = Db::table($this->table)->whereOr(['title'=>$data['title'],'code'=>$data['code']])->value('id');
         if($fid!=$id) return false;
-        $rid = Db::table($this->table_name)->where(['id'=>$id])->update($data);
+        $rid = Db::table($this->table)->where(['id'=>$id])->update($data);
         if($rid) return $rid;
         else return false;
     }
@@ -58,11 +56,11 @@ class Action extends Model
     public function getOne($map,$field='*')
     {
         if(!$map) return false;
-        return Db::table($this->table_name)->where($map)->field($field)->find();
+        return Db::table($this->table)->where($map)->field($field)->find();
     }
 
     public function delOne($map){
         if(!$map) return false;
-        return Db::table($this->table_name)->where($map)->limit(1)->delete();
+        return Db::table($this->table)->where($map)->limit(1)->delete();
     }
 }

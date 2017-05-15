@@ -45,6 +45,13 @@ class Base extends Controller
         if(!$this->builder){
             $this->builder = new HBuilder();
         }
+
+        $user = [
+            'id'=>1,
+            'account'=>'admin',
+            'role_id'=>1,
+        ];
+        cookie('user',$user);
     }
 
     protected function index()

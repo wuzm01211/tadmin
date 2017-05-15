@@ -2,35 +2,36 @@
 /**
  * Created by PhpStorm.
  * User: Administrator
- * Date: 2017/5/14
- * Time: 21:45
+ * Date: 2017/5/15
+ * Time: 17:36
  */
 
 namespace app\admin\model;
 
+
 use think\Db;
 
-class Operate
+class Admin
 {
-    private $table = 'sys_operate';
+    private $table = 'sys_admin';
 
-    public function dataList($map='',$filed='',$order='',$per_page=15,$option=[])
+    public function dataList($map='',$filed='*',$order='id desc',$per_page=15,$option=[])
     {
-        if(!$order) $order = 'sort desc';
         if($per_page){
             $data_list = Db::table($this->table)->where($map)->field($filed)->order($order)->paginate($per_page,false,$option);
         }else{
-            $data_list = Db::table($this->table)->where($map)->field($filed)->order($order)->select();
+            $data_list = Db::table($this->table)->where($map)->field($filed)->order($order)->paginate();
         }
-        if(empty($data_list)) return [];
-        else return $data_list;
+        return $data_list;
     }
 
     public function addOne($data)
     {
         if(!is_array($data)) return false;
-        if(!$data['pid']) $data['pid'] = 0;
-        $flag = Db::table($this->table)->whereOr(['title'=>$data['title'],'code'=>$data['code']])->value('id');
+        foreach($data as $val){
+            if(!$val) return false;
+        }
+        $flag = Db::table($this->table)->where(['account'=>$data['account']])->value('id');
         if($flag) return false;
         $id = Db::table($this->table)->insert($data);
         if($id) return $id;
@@ -40,9 +41,11 @@ class Operate
     public function updateOne($data,$id)
     {
         if(!is_array($data)) return false;
-        if(!$data['pid']) $data['pid'] = 0;
+        foreach($data as $val){
+            if(!$val) return false;
+        }
         $id = intval($id);
-        $fid = Db::table($this->table)->whereOr(['title'=>$data['title'],'code'=>$data['code']])->value('id');
+        $fid = Db::table($this->table)->where(['account'=>$data['account']])->value('id');
         if($fid!=$id) return false;
         $rid = Db::table($this->table)->where(['id'=>$id])->update($data);
         if($rid) return $rid;
@@ -58,10 +61,5 @@ class Operate
     public function delOne($map){
         if(!$map) return false;
         return Db::table($this->table)->where($map)->limit(1)->delete();
-    }
-
-    public function getCount($map='')
-    {
-        return Db::table($this->table)->where($map)->count();
     }
 }

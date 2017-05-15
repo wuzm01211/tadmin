@@ -20,3 +20,12 @@ function get_action($map='',$filed='*',$order='id desc')
 {
     return \think\Db::table('sys_action')->where($map)->field($filed)->order($order)->select();
 }
+
+function get_permission($map='',$field='*',$order='id desc')
+{
+    return \think\Db::table('sys_permission')
+        ->where($map)
+        ->field($field)
+        ->order($order)
+        ->select();
+}
