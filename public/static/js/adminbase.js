@@ -3,7 +3,7 @@
  */
 $(document).ready(function(){
     var ms = 200;
-    $('.sub-menu-o').show();
+    $('.sub-menu-o').slideDown(ms);
     if(is_mobile()){
         $('.data-list').addClass('table-responsive');
     }
