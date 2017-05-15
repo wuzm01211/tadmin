@@ -52,10 +52,13 @@ class Base extends Controller
             'role_id'=>1,
         ];
         cookie('user',$user);
+
     }
 
     protected function index()
     {
+
+
         return $this->builder
             ->setTitle($this->title)
             ->setTopButtons($this->top_buttons)
