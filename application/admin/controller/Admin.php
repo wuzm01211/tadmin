@@ -22,6 +22,7 @@ class Admin extends Base
     public function index()
     {
         $this->title = '管理员列表';
+        get_button();
         $data_list = $this->model->dataList();
 
     }
