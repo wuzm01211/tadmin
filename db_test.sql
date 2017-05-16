@@ -25,7 +25,7 @@ SET time_zone = "+00:00";
 --
 -- 表的结构 `sys_action`
 --
-
+DROP TABLE IF EXISTS `sys_action`;
 CREATE TABLE `sys_action` (
   `id` smallint(3) NOT NULL COMMENT '自增主键',
   `title` varchar(16) NOT NULL COMMENT '动作名',
@@ -50,6 +50,7 @@ INSERT INTO `sys_action` (`id`, `title`, `code`, `action`, `type`, `pos`) VALUES
 -- 表的结构 `sys_admin`
 --
 
+DROP TABLE IF EXISTS `sys_admin`;
 CREATE TABLE `sys_admin` (
   `id` smallint(5) NOT NULL COMMENT '自增主键',
   `role_id` smallint(5) NOT NULL COMMENT '角色id',
@@ -66,7 +67,7 @@ CREATE TABLE `sys_admin` (
 --
 -- 表的结构 `sys_log`
 --
-
+DROP TABLE IF EXISTS `sys_log`;
 CREATE TABLE `sys_log` (
   `id` int(12) NOT NULL COMMENT '自增主键',
   `description` varchar(255) NOT NULL COMMENT '描述',
@@ -79,7 +80,7 @@ CREATE TABLE `sys_log` (
 --
 -- 表的结构 `sys_operate`
 --
-
+DROP TABLE IF EXISTS `sys_operate`;
 CREATE TABLE `sys_operate` (
   `id` smallint(5) NOT NULL COMMENT '自增主键',
   `pid` smallint(5) NOT NULL DEFAULT '0' COMMENT '上级id',
@@ -107,7 +108,7 @@ INSERT INTO `sys_operate` (`id`, `pid`, `title`, `code`, `url`, `last_time`, `so
 --
 -- 表的结构 `sys_permission`
 --
-
+DROP TABLE IF EXISTS `sys_permission`;
 CREATE TABLE `sys_permission` (
   `id` int(11) NOT NULL COMMENT '自增主键',
   `role_id` smallint(5) NOT NULL COMMENT '角色id',
@@ -141,7 +142,7 @@ INSERT INTO `sys_permission` (`id`, `role_id`, `op_id`, `ac_id`) VALUES
 --
 -- 表的结构 `sys_role`
 --
-
+DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE `sys_role` (
   `id` smallint(5) NOT NULL COMMENT '自增主键',
   `role_name` varchar(64) NOT NULL COMMENT '角色名',
