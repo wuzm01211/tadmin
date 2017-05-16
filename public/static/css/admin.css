@@ -124,6 +124,9 @@ td>.checkbox-inline{
     cursor: pointer;
     font-weight: bold;
 }
+#admin-bar a{
+    color: #2f4056;
+}
 i.fa{
     margin-right: 3px;
 }

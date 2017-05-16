@@ -81,3 +81,19 @@ function is_login()
         return false;
     }
 }
+
+function check_permission()
+{
+    $user = session('user');
+    $role_id = $user['role_id'];
+    if(!$role_id) return false;
+    $controller = strtolower(request()->controller());
+    $action = strtolower(request()->action());
+    $op_id = Db::table('sys_operate')->where(['code'=>$controller])->value("id");
+    if(!$op_id) return false;
+    $ac_id = Db::table('sys_action')->where(['code'=>$action])->value('id');
+    if(!$ac_id) return false;
+    $permission = Db::table('sys_permission')->where(['role_id'=>$role_id,'op_id'=>$op_id,'ac_id'=>$ac_id])->value('id');
+    if($permission) return true;
+    else return false;
+}
