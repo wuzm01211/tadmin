@@ -16,6 +16,25 @@ function get_menu_tree($map=['pid'=>0])
     return $menu_tree;
 }
 
+function get_permission_menu($map='o.pid=0'){
+    $user = session('user');
+    $map.=' and p.role_id='.$user['role_id'];
+    $sql = 'select distinct o.id,o.pid,o.title,o.url,o.icon,o.sort,o.code from sys_operate o
+            join sys_permission p on '.$map.' and p.op_id=o.id and p.ac_id=1 order by o.sort desc';
+    return Db::query($sql);
+}
+
+function get_permission_menu_tree($map='o.pid=0')
+{
+    $pid_arr = get_permission_menu($map);
+    $menu_tree = [];
+    foreach($pid_arr as &$val){
+        $val['child_menu'] = get_permission_menu('o.pid='.$val['id']);
+        $menu_tree[] = $val;
+    }
+    return $menu_tree;
+}
+
 function get_menu_open($pid){
     $request = request();
     $controller = strtolower($request->controller());

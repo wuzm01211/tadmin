@@ -43,9 +43,12 @@ class Action extends Base
 
     public function add()
     {
+        if(request()->isPost()){
+            $this->save();
+        }
         $this->title = '添加'.self::ACTION_TITLE;
         $this->form_method = 'post';
-        $this->form_url = url('save');
+        $this->form_url = url('add');
         $this->formUI();
         return parent::add();
     }
@@ -57,6 +60,9 @@ class Action extends Base
             $this->error('参数错误');
             return false;
         }else{
+            if(request()->isPost()){
+                $this->save();
+            }
             $data = $this->model->getOne(['id'=>$id]);
             if(!$data){
                 $this->error('数据不存在');
@@ -65,7 +71,7 @@ class Action extends Base
                 $data['pos'] = explode(',',$data['pos']);
                 $this->title = '修改'.self::ACTION_TITLE;
                 $this->form_method = 'post';
-                $this->form_url = url('save',['id'=>$id]);
+                $this->form_url = url('edit',['id'=>$id]);
                 $this->form_data = $data;
                 $this->formUI();
                 return parent::edit();
@@ -97,7 +103,7 @@ class Action extends Base
         ];
     }
 
-    public function save()
+    private function save()
     {
         $data = input();
         $data['pos'] = implode(',',$data['pos']);

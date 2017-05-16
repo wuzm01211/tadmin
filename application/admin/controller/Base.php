@@ -10,6 +10,7 @@
 namespace app\admin\controller;
 
 use think\Controller;
+use think\Db;
 
 class Base extends Controller
 {
@@ -37,10 +38,13 @@ class Base extends Controller
     public function __construct()
     {
         $this->isLogin();
+        if(!check_permission()){
+            $this->error('无权访问');
+        }
         parent::__construct();
         $this->assign('ueditor',$this->ueditor);
 
-        $menu_tree = get_menu_tree();
+        $menu_tree = get_permission_menu_tree();
         $this->assign('menu_tree',$menu_tree);
 
         if(!$this->builder){

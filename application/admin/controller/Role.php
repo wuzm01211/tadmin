@@ -67,21 +67,27 @@ class Role extends Base
 
     public function add()
     {
+        if(request()->isPost()){
+            $this->save();
+        }
         $this->formUI();
         $this->title = '添加'.self::ACTION_TITLE;
         $this->form_method = 'post';
-        $this->form_url = url('save');
+        $this->form_url = url('add');
         $this->ueditor = 1;
         return parent::add();
     }
 
     public function edit()
     {
+        if(request()->isPost()){
+            $this->save();
+        }
         $id = intval(input('id'));
         $this->formUI();
         $this->setFormData($id);
         $this->title = '编辑'.self::ACTION_TITLE;
-        $this->form_url = url('save',['id'=>$id]);
+        $this->form_url = url('edit',['id'=>$id]);
         $this->form_method = 'post';
         return parent::edit();
     }
@@ -102,7 +108,7 @@ class Role extends Base
         }
     }
 
-    public function save()
+    private function save()
     {
         $data = input();
         $the_time = time();

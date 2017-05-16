@@ -65,15 +65,21 @@ class Operate extends Base
 
     public function add()
     {
+        if(request()->isPost()){
+            $this->save();
+        }
         $this->title = '添加'.self::ACTION_TITLE;
         $this->form_method = 'post';
-        $this->form_url = url('save');
+        $this->form_url = url('add');
         $this->formUI();
         return parent::add();
     }
 
     public function edit()
     {
+        if(request()->isPost()){
+            $this->save();
+        }
         $id = intval(input('id'));
         if(!$id){
             $this->error('参数错误');
@@ -86,7 +92,7 @@ class Operate extends Base
             }else{
                 $this->title =  '修改'.self::ACTION_TITLE;
                 $this->form_method = 'post';
-                $this->form_url = url('save',['id'=>$id]);
+                $this->form_url = url('edit',['id'=>$id]);
                 $this->form_data = $data;
                 $this->formUI();
                 return parent::edit();
@@ -106,7 +112,7 @@ class Operate extends Base
         ];
     }
 
-    public function save()
+    private function save()
     {
         $data = input();
         $data['last_time'] = time();
