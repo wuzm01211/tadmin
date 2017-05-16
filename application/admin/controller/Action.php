@@ -14,6 +14,8 @@ class Action extends Base
 {
     private $model = '';
 
+    const ACTION_TITLE = '操作';
+
     public function __construct()
     {
         if(!$this->model) $this->model = new ActionModel();
@@ -25,7 +27,7 @@ class Action extends Base
         $this->top_buttons = [
             ['type'=>'primary','url'=>url('add'),'title'=>'添加','action'=>'redirect']
         ];
-        $this->title = '操作列表';
+        $this->title = self::ACTION_TITLE.'列表';
         $this->t_head = ['id','操作名称','操作码','动作','样式','位置','操作'];
         $this->data_items = ['id','title','code','action','type','pos','right_button'];
         $this->data_list = $this->model->dataList();
@@ -41,9 +43,12 @@ class Action extends Base
 
     public function add()
     {
-        $this->title = '添加操作';
+        if(request()->isPost()){
+            $this->save();
+        }
+        $this->title = '添加'.self::ACTION_TITLE;
         $this->form_method = 'post';
-        $this->form_url = url('save');
+        $this->form_url = url('add');
         $this->formUI();
         return parent::add();
     }
@@ -55,15 +60,18 @@ class Action extends Base
             $this->error('参数错误');
             return false;
         }else{
+            if(request()->isPost()){
+                $this->save();
+            }
             $data = $this->model->getOne(['id'=>$id]);
             if(!$data){
                 $this->error('数据不存在');
                 return false;
             }else{
                 $data['pos'] = explode(',',$data['pos']);
-                $this->title = '修改操作';
+                $this->title = '修改'.self::ACTION_TITLE;
                 $this->form_method = 'post';
-                $this->form_url = url('save',['id'=>$id]);
+                $this->form_url = url('edit',['id'=>$id]);
                 $this->form_data = $data;
                 $this->formUI();
                 return parent::edit();
@@ -95,7 +103,7 @@ class Action extends Base
         ];
     }
 
-    public function save()
+    private function save()
     {
         $data = input();
         $data['pos'] = implode(',',$data['pos']);
@@ -103,15 +111,15 @@ class Action extends Base
             $id = $data['id'];
             unset($data['id']);
             if($this->model->updateOne($data,$id)){
-                $this->success('修改操作成功',url('index'));
+                $this->success('修改'.self::ACTION_TITLE.'成功',url('index'));
             }else{
-                $this->error('添加操作失败');
+                $this->error('添加'.self::ACTION_TITLE.'失败');
             }
         }else{
             if($this->model->addOne($data)){
-                $this->success('添加操作成功',url('index'));
+                $this->success('添加'.self::ACTION_TITLE.'成功',url('index'));
             }else{
-                $this->error('添加操作失败');
+                $this->error('添加'.self::ACTION_TITLE.'失败');
             }
         }
     }
@@ -123,9 +131,9 @@ class Action extends Base
             $this->error('参数错误');
         }else{
             if($this->model->delOne(['id'=>$id])){
-                $this->success('删除操作成功',url('index'));
+                $this->success('删除'.self::ACTION_TITLE.'成功',url('index'));
             }else{
-                $this->error('删除操作失败');
+                $this->error('删除'.self::ACTION_TITLE.'失败');
             }
         }
     }

@@ -28,9 +28,6 @@ class Admin
     public function addOne($data)
     {
         if(!is_array($data)) return false;
-        foreach($data as $val){
-            if(!$val) return false;
-        }
         $flag = Db::table($this->table)->where(['account'=>$data['account']])->value('id');
         if($flag) return false;
         $id = Db::table($this->table)->insert($data);
@@ -41,9 +38,6 @@ class Admin
     public function updateOne($data,$id)
     {
         if(!is_array($data)) return false;
-        foreach($data as $val){
-            if(!$val) return false;
-        }
         $id = intval($id);
         $fid = Db::table($this->table)->where(['account'=>$data['account']])->value('id');
         if($fid!=$id) return false;
@@ -58,8 +52,20 @@ class Admin
         return Db::table($this->table)->where($map)->field($field)->find();
     }
 
-    public function delOne($map){
+    public function del($map){
         if(!$map) return false;
-        return Db::table($this->table)->where($map)->limit(1)->delete();
+        return Db::table($this->table)->where($map)->delete();
+    }
+
+    public function enable($map)
+    {
+        if(!$map) return false;
+        return Db::table($this->table)->where($map)->setField('status',1);
+    }
+
+    public function disable($map)
+    {
+        if(!$map) return false;
+        return Db::table($this->table)->where($map)->setField('status',0);
     }
 }

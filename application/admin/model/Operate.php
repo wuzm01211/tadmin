@@ -55,9 +55,9 @@ class Operate
         return Db::table($this->table)->where($map)->field($field)->find();
     }
 
-    public function delOne($map){
+    public function del($map){
         if(!$map) return false;
-        return Db::table($this->table)->where($map)->limit(1)->delete();
+        return Db::table($this->table)->where($map)->delete();
     }
 
     public function getCount($map='')
