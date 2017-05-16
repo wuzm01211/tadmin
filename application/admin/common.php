@@ -16,6 +16,12 @@ function get_menu_tree($map=['pid'=>0])
     return $menu_tree;
 }
 
+function get_menu_arr($map='',$order='sort desc'){
+    $menu_arr = Db::table('sys_operate')->where($map)->order($order)->column('title','id');
+    $menu_arr[0]='顶级菜单';
+    return $menu_arr;
+}
+
 function get_permission_menu($map='o.pid=0'){
     $user = session('user');
     $map.=' and p.role_id='.$user['role_id'];
@@ -106,13 +112,25 @@ function check_permission()
     $user = session('user');
     $role_id = $user['role_id'];
     if(!$role_id) return false;
-    $controller = strtolower(request()->controller());
-    $action = strtolower(request()->action());
+    $request = request();
+    $model = $request->module();
+    $controller = strtolower($request->controller());
+    $action = $request->action();
+    $code = strtolower($model.'/'.$controller.'/'.$action);
     $op_id = Db::table('sys_operate')->where(['code'=>$controller])->value("id");
     if(!$op_id) return false;
-    $ac_id = Db::table('sys_action')->where(['code'=>$action])->value('id');
+    $ac_id = Db::table('sys_action')->where(['code'=>$code])->value('id');
     if(!$ac_id) return false;
     $permission = Db::table('sys_permission')->where(['role_id'=>$role_id,'op_id'=>$op_id,'ac_id'=>$ac_id])->value('id');
     if($permission) return true;
     else return false;
+}
+
+function get_url()
+{
+    $request = request();
+    $model = $request->module();
+    $controller = $request->controller();
+    $action = $request->action();
+    return strtolower($model.'/'.$controller.'/'.$action);
 }

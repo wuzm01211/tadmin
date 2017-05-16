@@ -133,11 +133,10 @@ class Role extends Base
 
     private function formUI()
     {
-        $menu = get_menu('','title as label,code as name','');
+        $menu = get_menu('','id,title as label,code as name','');
         $permission = [];
-        $action = get_action('','id as value,title','id asc');
         foreach($menu as $val){
-            $val['data'] = $action;
+            $val['data'] = get_action(['op_id'=>$val['id']],'id as value,title','id asc');
             $permission[] = $val;
         }
 

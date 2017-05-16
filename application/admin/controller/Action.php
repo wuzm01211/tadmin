@@ -28,11 +28,13 @@ class Action extends Base
             ['type'=>'primary','url'=>url('add'),'title'=>'添加','action'=>'redirect']
         ];
         $this->title = self::ACTION_TITLE.'列表';
-        $this->t_head = ['id','操作名称','操作码','动作','样式','位置','操作'];
-        $this->data_items = ['id','title','code','action','type','pos','right_button'];
+        $this->t_head = ['id','所属菜单','操作名称','操作码','动作','样式','位置','操作'];
+        $this->data_items = ['id','op_id','title','code','action','type','pos','right_button'];
         $this->data_list = $this->model->dataList();
         $this->setPage();
+        $menu_arr = get_menu_arr();
         foreach($this->data_list as &$val){
+            $val['op_id'] = $menu_arr[$val['op_id']];
             $val['right_button'] = [
                 ['type'=>'info','title'=>'修改','action'=>'redirect','url'=>url('edit',['id'=>$val['id']])],
                 ['type'=>'danger','title'=>'删除','action'=>'confirm','url'=>url('delete',['id'=>$val['id']])],
@@ -80,9 +82,11 @@ class Action extends Base
     }
 
     private function formUI(){
+        $op_arr = get_menu('','id as value,title');
         $this->form_items = [
             ['type'=>'text','label'=>'操作名称','name'=>'title','id'=>'title','placeholder'=>'请输入操作名称，必填'],
             ['type'=>'text','label'=>'操作码','name'=>'code','id'=>'title','placeholder'=>'请输入操作码，必填'],
+            ['type'=>'select','label'=>'所属菜单','name'=>'op_id','id'=>'op_id','data'=>$op_arr],
             ['type'=>'radio','label'=>'动作','name'=>'action','id'=>'action','data'=>[
                 ['value'=>'redirect','title'=>'直接跳转'],
                 ['value'=>'confirm','title'=>'等待确认'],

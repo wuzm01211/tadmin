@@ -53,8 +53,9 @@ class Operate extends Base
 
         $this->data_list = $this->model->dataList($where,'','',15,$option);
         $this->setPage();
-
+        $menu_arr = get_menu_arr();
         foreach($this->data_list as &$val){
+            $val['pid'] = $menu_arr[$val['pid']];
             $val['right_button'] = [
                 ['type'=>'info','title'=>'修改','action'=>'redirect','url'=>url('edit',['id'=>$val['id']])],
                 ['type'=>'danger','title'=>'删除','action'=>'confirm','url'=>url('delete',['id'=>$val['id']])],
