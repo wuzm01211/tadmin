@@ -128,7 +128,7 @@ i.fa{
     margin-right: 3px;
 }
 #menu-content a{
-    color: #c9c9c9;
+    color: #c6c6c6;
     width: 100%;
     line-height: 14px;
     padding: 8px 10px;
@@ -139,6 +139,11 @@ i.fa{
     cursor: pointer;
     text-decoration: none;
 }
+
+#menu-content a.active{
+    color: #fff;
+}
+
 .sub-menu{
     display: none;
 }

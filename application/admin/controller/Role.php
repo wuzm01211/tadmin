@@ -117,7 +117,6 @@ class Role extends Base
             }
         }else{
             $data['create_time'] = $the_time;
-            $data['status'] = 0;
             if($this->model->addOne($data)){
                 $this->success('添加'.self::ACTION_TITLE.'成功',url('index'));
             }else{

@@ -7,10 +7,14 @@
             {volist name="menu_tree" id="val"}
             <li>
                 <a class="main-menu" href="javascript:"><i class="fa {$val.icon}"></i>{$val.title}<i class="fa fa-angle-up fa-pull-right"></i></a>
-                <ul class="list-unstyled sub-menu sub-menu-o">
+                <ul class="list-unstyled sub-menu {php}if(get_menu_open($val['id'])){ echo 'sub-menu-o';}{/php}">
                     {volist name="$val['child_menu']" id="vo"}
                     <li>
+                        {php}if(strtolower(request()->controller())==$vo['code']){{/php}
+                        <a href="{:url($vo['url'])}" class="active"><i class="fa {$vo['icon']}"></i>{$vo['title']}</a>
+                        {php}}else{{/php}
                         <a href="{:url($vo['url'])}"><i class="fa {$vo['icon']}"></i>{$vo['title']}</a>
+                        {php}}{/php}
                     </li>
                     {/volist}
                 </ul>

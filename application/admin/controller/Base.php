@@ -36,6 +36,7 @@ class Base extends Controller
 
     public function __construct()
     {
+        $this->isLogin();
         parent::__construct();
         $this->assign('ueditor',$this->ueditor);
 
@@ -45,14 +46,13 @@ class Base extends Controller
         if(!$this->builder){
             $this->builder = new HBuilder();
         }
+    }
 
-        $user = [
-            'id'=>1,
-            'account'=>'admin',
-            'role_id'=>1,
-        ];
-        cookie('user',$user);
-
+    private function isLogin()
+    {
+        if(!is_login()){
+            $this->redirect(url('admin/login/index'));
+        }
     }
 
     protected function index()

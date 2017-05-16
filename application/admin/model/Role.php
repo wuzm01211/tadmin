@@ -51,9 +51,9 @@ class Role
         $flag = Db::table($this->table)->where(['role_name'=>$data['role_name']])->value('id');
         if($flag) return false;
         $id = Db::table($this->table)->field('id,role_name,status,create_time,last_time')->insertGetId($role_data);
-        $permission = $this->buildPms($data,$id);
-        $id = Db::table('sys_permission')->insertAll($permission);
         if($id){
+            $permission = $this->buildPms($data,$id);
+            Db::table('sys_permission')->insertAll($permission);
             return $id;
         }else{
             return false;
@@ -108,11 +108,11 @@ class Role
 
     public function delOne($map){
         if(!$map) return false;
-        $info = Db::table($this->table)->where($map)->find();
+        $info = Db::table($this->table)->where($map)->value('id');
         if($info){
-            $rid =  Db::table($this->table)->where($map)->limit(1)->delete();
+            $rid =  Db::table($this->table)->where($map)->delete();
             if($rid){
-                Db::table('sys_permission')->where(['role_id'=>$info['id']])->delete();
+                Db::table('sys_permission')->where(['role_id'=>$info])->delete();
                 return $rid;
             }else{
                 return false;

@@ -352,7 +352,7 @@ class HBuilder extends Controller
         }else{
             foreach($data_list as $val){
                 $html.='<tr>';
-                $html.='<td><input class="data-check" type="checkbox" value="1" name="check_arr[]"></td>';
+                $html.='<td><input class="data-check" type="checkbox" value="'.$val['id'].'" name="check_arr[]"></td>';
                 foreach($data_items as $vo){
                     $html.='<td>';
                     if($vo=='right_button'){
