@@ -6,7 +6,11 @@
         <ul class="list-unstyled">
             {volist name="menu_tree" id="val"}
             <li>
+                {php}if(get_menu_open($val['id'])){{/php}
                 <a class="main-menu" href="javascript:"><i class="fa {$val.icon}"></i>{$val.title}<i class="fa fa-angle-up fa-pull-right"></i></a>
+                {php}}else{{/php}
+                <a class="main-menu" href="javascript:"><i class="fa {$val.icon}"></i>{$val.title}<i class="fa fa-angle-down fa-pull-right"></i></a>
+                {php}}{/php}
                 <ul class="list-unstyled sub-menu {php}if(get_menu_open($val['id'])){ echo 'sub-menu-o';}{/php}">
                     {volist name="$val['child_menu']" id="vo"}
                     <li>
