@@ -40,9 +40,7 @@ class Operate extends Base
         }
 
         $pid_arr = $this->model->dataList(['pid'=>0],'id as value,title','',0);
-        $this->top_buttons = [
-            ['type'=>'primary','url'=>url('add'),'title'=>'添加','action'=>'redirect']
-        ];
+
         $this->title = self::ACTION_TITLE.'列表';
         $this->search_items = [
             ['type'=>'text','label'=>'菜单名称','name'=>'title','id'=>'title','placeholder'=>'请输入菜单名称，必填'],
@@ -54,12 +52,13 @@ class Operate extends Base
         $this->data_list = $this->model->dataList($where,'','',15,$option);
         $this->setPage();
         $menu_arr = get_menu_arr();
+        $right_button = get_button('right_button',0);
         foreach($this->data_list as &$val){
+            foreach($right_button as &$vo){
+                $vo['url'] = url($vo['code'],['id'=>$val['id']]);
+            }
             $val['pid'] = $menu_arr[$val['pid']];
-            $val['right_button'] = [
-                ['type'=>'info','title'=>'修改','action'=>'redirect','url'=>url('edit',['id'=>$val['id']])],
-                ['type'=>'danger','title'=>'删除','action'=>'confirm','url'=>url('delete',['id'=>$val['id']])],
-            ];
+            $val['right_button'] = $right_button;
         }
         return parent::index();
     }

@@ -24,21 +24,19 @@ class Action extends Base
 
     public function index()
     {
-        $this->top_buttons = [
-            ['type'=>'primary','url'=>url('add'),'title'=>'添加','action'=>'redirect']
-        ];
         $this->title = self::ACTION_TITLE.'列表';
         $this->t_head = ['id','所属菜单','操作名称','操作码','动作','样式','位置','操作'];
         $this->data_items = ['id','op_id','title','code','action','type','pos','right_button'];
         $this->data_list = $this->model->dataList();
         $this->setPage();
         $menu_arr = get_menu_arr();
+        $right_button = get_button('right_button',0);
         foreach($this->data_list as &$val){
+            foreach($right_button as &$vo){
+                $vo['url'] = url($vo['code'],['id'=>$val['id']]);
+            }
             $val['op_id'] = $menu_arr[$val['op_id']];
-            $val['right_button'] = [
-                ['type'=>'info','title'=>'修改','action'=>'redirect','url'=>url('edit',['id'=>$val['id']])],
-                ['type'=>'danger','title'=>'删除','action'=>'confirm','url'=>url('delete',['id'=>$val['id']])],
-            ];
+            $val['right_button'] = $right_button;
         }
         return parent::index();
     }
@@ -86,6 +84,7 @@ class Action extends Base
         $this->form_items = [
             ['type'=>'text','label'=>'操作名称','name'=>'title','id'=>'title','placeholder'=>'请输入操作名称，必填'],
             ['type'=>'text','label'=>'操作码','name'=>'code','id'=>'title','placeholder'=>'请输入操作码，必填'],
+            ['type'=>'text','label'=>'排序','name'=>'sort','id'=>'sort','placeholder'=>'排序'],
             ['type'=>'select','label'=>'所属菜单','name'=>'op_id','id'=>'op_id','data'=>$op_arr],
             ['type'=>'radio','label'=>'动作','name'=>'action','id'=>'action','data'=>[
                 ['value'=>'redirect','title'=>'直接跳转'],

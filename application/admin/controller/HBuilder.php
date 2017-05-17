@@ -10,6 +10,7 @@ namespace app\admin\controller;
 
 
 use think\Controller;
+use think\Db;
 
 class HBuilder extends Controller
 {
@@ -245,6 +246,10 @@ class HBuilder extends Controller
      */
     public function setTopButtons($top_buttons='')
     {
+        $user = session('user');
+        if(($user['id']==1)&&empty($top_buttons)){
+            $top_buttons = [['type'=>'primary','action'=>'redirect','url'=>url('add'),'title'=>'添加']];
+        }
         if(!is_array($top_buttons)){
             $this->assign('top_buttons','');
         }else{

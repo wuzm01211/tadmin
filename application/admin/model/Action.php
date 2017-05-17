@@ -29,11 +29,6 @@ class Action
     public function addOne($data)
     {
         if(!is_array($data)) return false;
-        foreach($data as $val){
-            if(!$val) return false;
-        }
-        $flag = Db::table($this->table)->whereOr(['title'=>$data['title'],'code'=>$data['code']])->value('id');
-        if($flag) return false;
         $id = Db::table($this->table)->insert($data);
         if($id) return $id;
         else return false;
@@ -42,12 +37,6 @@ class Action
     public function updateOne($data,$id)
     {
         if(!is_array($data)) return false;
-        foreach($data as $val){
-            if(!$val) return false;
-        }
-        $id = intval($id);
-        $fid = Db::table($this->table)->whereOr(['title'=>$data['title'],'code'=>$data['code']])->value('id');
-        if($fid!=$id) return false;
         $rid = Db::table($this->table)->where(['id'=>$id])->update($data);
         if($rid) return $rid;
         else return false;

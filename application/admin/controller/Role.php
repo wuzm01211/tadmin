@@ -37,19 +37,20 @@ class Role extends Base
         $this->t_head = ['ID','角色','添加时间','修改时间','状态','操作'];
         $this->data_list = $this->model->dataList($where,'','',15,$option);
         $this->setPage();
+        $right_button = get_button('right_button',0);
         foreach($this->data_list as &$val){
-            $val['right_button'] = [
-                ['type'=>'info','title'=>'修改','action'=>'redirect','url'=>url('edit',['id'=>$val['id']])],
-                ['type'=>'danger','title'=>'删除','action'=>'confirm','url'=>url('delete',['id'=>$val['id']])]
-            ];
+            foreach($right_button as &$vo){
+                $vo['url'] = url($vo['code'],['id'=>$val['id']]);
+            }
+            $val['right_button'] = $right_button;
 
             switch($val['status']){
                 case '0':
-                    $val['right_button'][] = ['type'=>'success','title'=>'启用','action'=>'confirm','url'=>url('enable',['id'=>$val['id']])];
+                    unset($val['right_button']['admin/role/disable']);
                     $val['status'] = "<span style='color: #ff3d0c'>禁用</span>";
                     break;
                 case '1':
-                    $val['right_button'][] = ['type'=>'warning','title'=>'禁用','action'=>'confirm','url'=>url('disable',['id'=>$val['id']])];
+                    unset($val['right_button']['admin/role/enable']);
                     $val['status'] = "<span style='color: #396;'>启用</span>";
                     break;
                 default:

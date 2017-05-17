@@ -71,7 +71,7 @@ function get_button($pos='top_button',$convert=1)
     $controller = strtolower($request->controller());
     $sql = "select a.type,a.action,a.title,a.code from sys_permission p
             join sys_operate o on o.code='$controller' and p.op_id=o.id and p.role_id=$role_id
-            join sys_action a on a.id=p.ac_id and a.pos LIKE '%$pos%'";
+            join sys_action a on a.id=p.ac_id and a.pos LIKE '%$pos%' order by a.sort desc";
     $buttons = Db::query($sql);
     $row = [];
     if($convert){

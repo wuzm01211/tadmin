@@ -66,7 +66,7 @@ class Base extends Controller
     protected function index()
     {
 
-
+        $this->top_buttons = get_button();
         return $this->builder
             ->setTitle($this->title)
             ->setTopButtons($this->top_buttons)

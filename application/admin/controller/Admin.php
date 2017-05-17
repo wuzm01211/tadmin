@@ -32,9 +32,8 @@ class Admin extends Base
             $option['account'] = $account;
         }
         $this->title = self::ACTION_TITLE.'列表';
-        $this->top_buttons = get_button();
         $this->search_items = [
-          ['type'=>'text','label'=>'账号','name'=>'account','id'=>'account','placeholder'=>'账号'],
+            ['type'=>'text','label'=>'账号','name'=>'account','id'=>'account','placeholder'=>'账号'],
         ];
         $this->data_items = ['account','role','last_time','last_ip','status','right_button'];
         $this->t_head = ['账号','角色','最近登录','最近ip','状态','操作'];
@@ -50,11 +49,11 @@ class Admin extends Base
             $val['right_button'] = $right_button;
             switch($val['status']){
                 case '0':
-                    unset($val['right_button']['disable']);
+                    unset($val['right_button']['admin/admin/disable']);
                     $val['status'] = "<span style='color: #ff3d0c'>禁用</span>";
                     break;
                 case '1':
-                    unset($val['right_button']['enable']);
+                    unset($val['right_button']['admin/admin/enable']);
                     $val['status'] = "<span style='color: #396;'>启用</span>";
                     break;
                 default:
